@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -11,4 +12,16 @@ class User < ApplicationRecord
     user = User.find_for_authentication(email: email)
     user&.valid_password?(password) ? user : nil
   end
+
+  def admin?
+		has_role?(:admin)
+	end
+
+  def worker?
+		has_role?(:worker)
+	end
+
+	def normal?
+		has_role?(:normal)
+	end
 end

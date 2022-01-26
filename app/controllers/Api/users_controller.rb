@@ -4,6 +4,7 @@ module Api
   
       def create
         user = User.new(email: user_params[:email], password: user_params[:password])
+        user.add_role(:normal)
   
         client_app = Doorkeeper::Application.find_by(uid: params[:client_id])
   
