@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     user ||= User.new
     if user.normal?
+      can :create, Partner
       can :read, Partner
     elsif user.worker?
       can :read, Partner
