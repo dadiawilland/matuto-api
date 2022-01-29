@@ -6,6 +6,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, format: URI::MailTo::EMAIL_REGEXP
+  attr_accessor :password, :password_confirm
+  
+  has_many :payment_info
   
   # the authenticate method from devise documentation
   def self.authenticate(email, password)

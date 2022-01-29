@@ -1,7 +1,7 @@
 module Api
 	class PartnersController < Api::ApplicationController
 		load_and_authorize_resource
-		skip_before_action :doorkeeper_authorize!, only: %i[index]
+		# skip_before_action :doorkeeper_authorize!, only: %i[index]
 		
 		def search_fields = ['name', 'address', 'business_type', 'industry', 'application_status', 'contact_number', 'emails'].freeze
 
