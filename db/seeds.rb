@@ -1,15 +1,15 @@
 Role.create(name: 'admin')
 Role.create(name: 'worker')
 Role.create(name: 'normal')
-user1 = User.create(email: 'admin@mediocreinventions.com',
+user1 = User.create(email: 'test@admin.com',
 					password: 'qwerty123',
 					password_confirmation: 'qwerty123')
 user1.add_role(:admin)
-user2 = User.create(email: 'worker@mediocreinventions.com',
+user2 = User.create(email: 'test@worker.com',
 					password: 'qwerty123',
 					password_confirmation: 'qwerty123')
 user2.add_role(:worker)
-user2 = User.create(email: 'normal@mediocreinventions.com',
+user2 = User.create(email: 'test@normal.com',
 					password: 'qwerty123',
 					password_confirmation: 'qwerty123')
 user2.add_role(:normal)

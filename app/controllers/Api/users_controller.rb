@@ -1,11 +1,25 @@
 module Api
   class UsersController < Api::ApplicationController
-    skip_before_action :doorkeeper_authorize!, only: %i[create]
+    skip_before_action :doorkeeper_authorize!, only: %i[create index]
 
     # TODO: add error handling and type handling
+
+    def search_fields = ['email', 'first_name', 'last_name', 'contact_number'].freeze
+
+    def index
+      search_params = search_fields & params.keys
+			if search_params
+				filtered_params = params.slice(*search_params)
+				@users = User.where(filtered_params.permit!)
+				render json: { users: @users }
+			else
+				@users = User.all
+				render json: { users: @users }
+			end
+    end
+
     def create
       User.transaction do
-        binding.pry
         user = User.new(user_params)
 
         user.add_role(:normal)
@@ -78,6 +92,9 @@ module Api
     private
     def user_params
       params.require(:user).permit(:email, :password, :password_confirm, :first_name, :last_name, :contact_number,)
+    end
+
+    def search_params
     end
 
     def payment_info_params

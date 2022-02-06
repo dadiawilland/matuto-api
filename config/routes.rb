@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   
   namespace :api do
-    resources :users, only: %i[create]
+    resources :users
     resources :partners
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

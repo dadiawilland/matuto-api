@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, format: URI::MailTo::EMAIL_REGEXP
-  attr_accessor :password, :password_confirm
+  attr_accessor :password_confirm
   
   has_many :payment_info
   
@@ -27,4 +27,16 @@ class User < ApplicationRecord
 	def normal?
 		has_role?(:normal)
 	end
+
+  # require 'bcrypt'
+  # def valid_password?(password)
+  #   binding.pry
+  #   return false if encrypted_password.blank?
+  #   bcrypt   = ::BCrypt::Password.new(encrypted_password)
+  #   if self.class.pepper.present?
+  #     password = "#{password}#{self.class.pepper}"
+  #   end
+  #   password = ::BCrypt::Engine.hash_secret(password, bcrypt.salt)
+  #   Devise.secure_compare(password, encrypted_password)
+  # end
 end
