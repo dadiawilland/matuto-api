@@ -8,7 +8,9 @@ Bundler.require(*Rails.groups)
 
 module MatutoApi
   class Application < Rails::Application
+    config.api_only = true
     # Initialize configuration defaults for originally generated Rails version.
+    config.autoload_once_paths << "#{root}/app/services"
     config.to_prepare do
       DeviseController.respond_to :html, :json
     end
