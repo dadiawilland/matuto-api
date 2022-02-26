@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users
     resources :partners
-    post 'onboarding', action: :batch_create, controller: 'onboarding_surveys'
+    namespace :onboarding do
+      get 'survey/:id', action: :show, controller: 'onboarding_surveys'
+      put 'survey/:id', action: :update, controller: 'onboarding_surveys'
+      post 'survey', action: :batch_create, controller: 'onboarding_surveys'
+      post 'answers', action: :post_answers, controllers: 'onboarding_answers'
+    end
   end
 end
