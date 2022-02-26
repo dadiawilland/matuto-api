@@ -5,7 +5,7 @@ class Api::PartnersController < Api::ApplicationController
 	def index
 		search_fields = ['name', 'address', 'business_type', 'industry', 'application_status', 'contact_number', 'email'].freeze
 		search_params = search_fields & params.keys
-		result = Search::SearchAllService.new( search_params, params, Partner ).execute
+		result = SearchAllService.new( search_params, params, Partner ).execute
 		
 		render json: {partners: result}
 	end

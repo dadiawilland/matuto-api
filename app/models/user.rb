@@ -9,6 +9,7 @@ class User < ApplicationRecord
   attr_accessor :password_confirm
   
   has_many :payment_info
+  has_many :onboarding_answer
   
   # the authenticate method from devise documentation
   def self.authenticate(email, password)
