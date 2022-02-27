@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :users
     resources :partners
     namespace :onboarding do
+      get 'survey', action: :index, controller: 'onboarding_surveys'
       get 'survey/:id', action: :show, controller: 'onboarding_surveys'
       put 'survey/:id', action: :update, controller: 'onboarding_surveys'
       post 'survey', action: :batch_create, controller: 'onboarding_surveys'
