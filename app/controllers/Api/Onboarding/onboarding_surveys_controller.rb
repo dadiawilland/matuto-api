@@ -22,8 +22,7 @@ class Api::Onboarding::OnboardingSurveysController < Api::ApplicationController
     search_fields = ['title'].freeze
 		search_params = search_fields & params.keys
 		result = SearchAllService.new( search_params, params, OnboardingSurvey ).execute
-		
-		render json: {partners: result}
+		render json: result, each_serializer: OnboardingSurveysSerializer
   end
 
   def show

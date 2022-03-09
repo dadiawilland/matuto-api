@@ -3,4 +3,8 @@ class OnboardingSurvey < ApplicationRecord
 
     accepts_nested_attributes_for :onboarding_option
     validates :title, presence: true
+
+    def get_onboarding_options
+        self.onboarding_option
+    end
 end

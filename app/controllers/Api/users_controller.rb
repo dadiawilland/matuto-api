@@ -1,5 +1,6 @@
 class Api::UsersController < Api::ApplicationController
-  skip_before_action :doorkeeper_authorize!, only: %i[create index]
+  skip_before_action :doorkeeper_authorize!, only: %i[create index add_avatar]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :add_avatar]
 
   # TODO: add error handling and type handling
 
@@ -9,6 +10,11 @@ class Api::UsersController < Api::ApplicationController
     result = SearchAllService.new( search_params, params, User ).execute
 
 		render json: {users: result}
+  end
+
+  def add_avatar
+    @user.update!(avatar_id: params[:avatar_id])
+    render json: @user
   end
 
   def create
@@ -84,7 +90,7 @@ class Api::UsersController < Api::ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirm, :first_name, :last_name, :contact_number,)
+    params.require(:user).permit(:email, :password, :password_confirm, :first_name, :last_name, :contact_number)
   end
 
   def search_params
@@ -93,6 +99,10 @@ class Api::UsersController < Api::ApplicationController
   def payment_info_params
     params.require(:payment_info).permit(:payment_type, :name, :number, :cvv, :date_expiration)
   end
+
+  def set_user
+    @user = User.find(params[:id])
+ end
 
   def generate_refresh_token
     loop do
