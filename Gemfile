@@ -49,11 +49,13 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'devise', '~> 4.8.1'
-gem 'doorkeeper', '~> 5.4.0'
+gem 'doorkeeper', '~> 5.5.4'
 gem 'pry-rails'
 gem 'pry-doc'
 gem 'rolify'
-gem 'cancan'
+gem 'cancancan'
+gem 'rack-cors'
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
