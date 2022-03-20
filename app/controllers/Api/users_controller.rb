@@ -20,68 +20,27 @@ class Api::UsersController < Api::ApplicationController
   def create
     User.transaction do
       user = User.new(user_params)
-
       user.add_role(:normal)
 
       if user.save
-        # create access token for the user, so the user won't need to login again after registration
+        access_token = Doorkeeper::AccessToken.create(
+          resource_owner_id: user.id,
+          refresh_token: generate_refresh_token,
+          expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
+          scopes: ''
+        )
 
-        if params['payment_info']["name"] 
-          payment_info = PaymentInfo.new(payment_info_params)
-          payment_info.user_id = user.id
-          #TODO: create credit card integer to date converter
-          payment_info.date_expiration = Time.at(params['payment_info']['date_expiration'].to_i)
-          if payment_info.save
-            access_token = Doorkeeper::AccessToken.create(
-              resource_owner_id: user.id,
-              refresh_token: generate_refresh_token,
-              expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
-              scopes: ''
-            )
-    
-            render(json: {
-              user: {
-                id: user.id,
-                email: user.email,
-                access_token: access_token.token,
-                token_type: 'bearer',
-                expires_in: access_token.expires_in,
-                refresh_token: access_token.refresh_token,
-                created_at: access_token.created_at.to_time.to_i
-              },
-              payment_info: {
-                payment_type: payment_info.payment_type,
-                name: payment_info.name,
-                number: payment_info.number,
-                cvv: payment_info.cvv,
-                date_expiration: payment_info.date_expiration
-              }
-            })
-          else 
-            raise ActiveRecord::Rollback
-            render(json: { error: user.errors.full_messages }, status: 422)
-          end
-
-        else 
-          access_token = Doorkeeper::AccessToken.create(
-            resource_owner_id: user.id,
-            refresh_token: generate_refresh_token,
-            expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
-            scopes: ''
-          )
-  
-          render(json: {
-            user: {
-              id: user.id,
-              email: user.email,
-              access_token: access_token.token,
-              token_type: 'bearer',
-              expires_in: access_token.expires_in,
-              refresh_token: access_token.refresh_token,
-              created_at: access_token.created_at.to_time.to_i
-            }
-          })
-        end
+        render(json: {
+          user: {
+            id: user.id,
+            email: user.email,
+            access_token: access_token.token,
+            token_type: 'bearer',
+            expires_in: access_token.expires_in,
+            refresh_token: access_token.refresh_token,
+            created_at: access_token.created_at.to_time.to_i
+          }
+        })
       else
         render(json: { error: user.errors.full_messages }, status: 422)
       end
@@ -94,10 +53,6 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def search_params
-  end
-
-  def payment_info_params
-    params.require(:payment_info).permit(:payment_type, :name, :number, :cvv, :date_expiration)
   end
 
   def set_user

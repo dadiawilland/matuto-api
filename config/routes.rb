@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     # resources :users
     get 'users', action: :index, controller: 'users'
     post 'users', action: :create, controller: 'users'
+    get 'payment-info', action: :index, controller: 'payment_info'
+    post 'payment-info', action: :create, controller: 'payment_info'
     put 'users/:id/avatar/:avatar_id', action: :add_avatar, controller: 'users'
     resources :partners
     namespace :onboarding do
