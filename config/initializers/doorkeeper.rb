@@ -503,3 +503,7 @@ Doorkeeper.configure do
   #
   # realm "Doorkeeper"
 end
+
+Rails.application.config.to_prepare do
+  Doorkeeper::OAuth::TokenResponse.send :prepend, CustomTokenResponse
+end
