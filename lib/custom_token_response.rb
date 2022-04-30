@@ -1,9 +1,9 @@
 module CustomTokenResponse
   def body
-    
+    user = User.find(@token.resource_owner_id)
     additional_data = {
-      'id' => @token.resource_owner_id # you have an access to the @token object
-      # any other data
+      'id' => user.id ,
+      'roles' => user.roles.ids
     }
 
     # call original `#body` method and merge its result with the additional data hash

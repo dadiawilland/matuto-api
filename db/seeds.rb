@@ -1,6 +1,7 @@
-Role.create(name: 'admin')
-Role.create(name: 'worker')
-Role.create(name: 'normal')
+Role.create(name: 'admin') #id = 1
+Role.create(name: 'worker') #id = 2
+Role.create(name: 'normal') #id = 3
+
 user1 = User.create(email: 'test@admin.com',
 					password: 'qwerty123',
 					password_confirmation: 'qwerty123')
